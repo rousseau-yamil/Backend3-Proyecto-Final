@@ -1,0 +1,160 @@
+# router.post('/register', register);
+# router.post('/login', login);
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Registro de un nuevo usuario
+      tags:
+        - Auth
+      requestBody:
+        description: Datos necesarios para registrar un usuario
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - first_name
+                - last_name
+                - email
+                - password
+              properties:
+                first_name:
+                  type: string
+                  example: "Juan"
+                last_name:
+                  type: string
+                  example: "Perez"
+                email:
+                  type: string
+                  format: email
+                  example: "juan.perez@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "12345678"
+      responses:
+        "201":
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/User'
+        "400":
+          description: Faltan campos requeridos en la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "deben venir todos los campos requeridos"
+        "409":
+          description: El usuario ya existe
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "El usuario ya existe"
+        "500":
+          description: Error inesperado en el servidor
+
+  /api/auth/login:
+    post:
+      summary: Login de usuario
+      tags:
+        - Auth
+      requestBody:
+        description: Credenciales para autenticación
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "juan.perez@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "12345678"
+      responses:
+        "200":
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Bienvenid@ Juan Login exitoso"
+        "401":
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "Credenciales inválidas"
+        "500":
+          description: Error inesperado en el servidor
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del usuario generado por MongoDB
+          example: "657872b1244ab4694ca2e659"
+        first_name:
+          type: string
+          example: "Juan"
+        last_name:
+          type: string
+          example: "Perez"
+        email:
+          type: string
+          format: email
+          example: "juan.perez@example.com"
+        role:
+          type: string
+          example: "user"
+        pets:
+          type: array
+          description: Lista de IDs de mascotas asociadas al usuario
+          items:
+            type: string
+          example: ["657872b1244ab4694ca2e660"]

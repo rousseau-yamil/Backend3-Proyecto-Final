@@ -1,0 +1,118 @@
+# app.use("/api/users", usersRouter);
+
+# router.get('/',usersController.getAllUsers);
+# router.get('/:uid',usersController.getUser);
+# router.put('/:uid',usersController.updateUser);
+# router.delete('/:uid',usersController.deleteUser);
+
+paths:
+  /api/users/:
+    get:
+      summary: Obtiene una lista de usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: La operación fue exitosa, se retorna un arreglo de los usuarios.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso.
+  
+  /api/users/{uid}:
+    get:
+      summary: Obtiene un usuario por su ID
+      tags:
+        - Users
+      parameters:
+        - name: uid 
+          in: path 
+          required: true
+          description: Id del usuario 
+          schema: 
+            type: string
+      responses:
+        "200":
+          description: La operación fue exitosa, se retorna un usuario por su ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso.
+# (404).send({status:"error", error:"User not found"})
+        "404":
+          description: No se encontro el usuario 
+        "400":
+          description: Error del tipo de dato en usuario 
+# 400).json({ status: "error", error: "Invalid user ID format" });
+    put:
+      summary: Actualizar un usuario
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+          description: ID del usuario a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso.
+        "404":
+          description: No se encontro el usuario 
+        "400":
+          description: Error del tipo de dato en usuario 
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string 
+          description: La PK del usuario auto-generada por mongoDB
+          example: "657872b1244ab4694ca2e659"
+        first_name:
+          type: string 
+          description: nombre del usuario
+          example: "Pepe"
+        last_name:
+          type: string 
+          description: apellido del usuario
+          example: "Lopez"
+        email:
+          type: string 
+          description: email del usuario
+          example: "pepe@gmail.com"
+        password:
+          type: string 
+          description: contraseña encriptada del usuario
+          example: "$2398498$23749029409"
+        role:
+          type: string 
+          description: rol del usuario
+          example: "admin"
+        pets:
+          type: array 
+          description: Lista de mascotas
+          items:
+            type: string
+          example: ["gato"]
