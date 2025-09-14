@@ -1,6 +1,6 @@
 # Coderhouse - Proyecto Final de Backend 3
 
-¡Hola! Este es el proyecto final de Backend 3. Es una aplicación de adopción de mascotas que usa Node.js y se ejecuta en un contenedor de Docker.
+Este es el proyecto final de Backend 3. Es una aplicación de adopción de mascotas que usa Node.js y se ejecuta en un contenedor de Docker.
 
 ## 🚀 Despliegue con Docker
 
@@ -69,9 +69,3 @@ Bash
     package.json: Las dependencias del proyecto y los scripts para los tests.
     README.md: Este archivo.
 ```
-
-¡Gracias por revisar mi trabajo!
-
-
--
-Con este `README.md`, el evaluador tendrá una guía completa y precisa para revisar 
